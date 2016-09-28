@@ -23,7 +23,7 @@ class PhotosViewModel(EventDispatcher):
         def on_success(req, res):
             photos = [Photo(data['title'], data['thumbnailUrl']) for data in res]
             self.photos = photos
-            self.dispatch('on_photos_load_success', photos)
+            self.dispatch('on_photos_load_success')
 
         def on_error(req, res):
             self.dispatch('on_photos_load_error')
@@ -50,7 +50,7 @@ class PhotosViewModel(EventDispatcher):
     def on_photos_load_error(self):
         pass
 
-    def on_photos_load_success(self, photos):
+    def on_photos_load_success(self):
         pass
 
     def on_photos_load_start(self):

@@ -57,13 +57,16 @@ class PhotosView(Screen):
     def prepare(self):
         self.content = self.ids.content
         self.status_label = self.ids.label.__self__ # strong reference
-        self.photos_stream = None
+        self.photos_stream = PhotosStream()
         app = App.get_running_app()
+        app.photos_view_model.bind(
+            photos=lambda o, v: self.update_photos_stream(v)
+        )
         app.photos_view_model.bind(
             on_photos_load_start=lambda *x: self.show_content_loading(),
             on_photos_load_progress=lambda *x: self.show_content_loading(),
             on_photos_load_error=lambda *x: self.show_content_error(),
-            on_photos_load_success=lambda vm, photos: self.show_content_loaded(photos)
+            on_photos_load_success=lambda *x: self.show_content_loaded()
         )
 
     def refresh_button_clicked(self):
@@ -76,8 +79,6 @@ class PhotosView(Screen):
             self.ids.content.add_widget(self.status_label)
 
     def ensure_photos_stream(self):
-        if not self.photos_stream:
-            self.photos_stream = PhotosStream()
         self.ids.content.clear_widgets()
         self.ids.content.add_widget(self.photos_stream)
 
@@ -89,8 +90,14 @@ class PhotosView(Screen):
         self.ensure_status_label()
         self.status_label.text = 'Loading photos in progress...'
 
-    def show_content_loaded(self, photos):
+    def show_content_loaded(self):
         self.ensure_photos_stream()
+
+    def show_content_error(self):
+        self.ensure_status_label()
+        self.status_label.text = 'Photos loading error, try again later...'
+
+    def update_photos_stream(self, photos):
         self.photos_stream.data = [
             {
                 'source': photo.url
@@ -98,7 +105,3 @@ class PhotosView(Screen):
             for photo in photos
         ]
         self.photos_stream.scroll_y = 1
-
-    def show_content_error(self):
-        self.ensure_status_label()
-        self.status_label.text = 'Photos loading error, try again later...'
