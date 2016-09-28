@@ -60,9 +60,7 @@ class PhotosView(Screen):
         self.photos_stream = PhotosStream()
         app = App.get_running_app()
         app.photos_view_model.bind(
-            photos=lambda o, v: self.update_photos_stream(v)
-        )
-        app.photos_view_model.bind(
+            photos=lambda o, v: self.update_photos_stream(v),
             on_photos_load_start=lambda *x: self.show_content_loading(),
             on_photos_load_progress=lambda *x: self.show_content_loading(),
             on_photos_load_error=lambda *x: self.show_content_error(),
