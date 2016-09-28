@@ -96,6 +96,9 @@ class PhotosView(Screen):
         self.status_label.text = 'Photos loading error, try again later...'
 
     def update_photos_stream(self, photos):
+        if not photos:
+            self.show_content_empty()
+            return
         self.photos_stream.data = [
             {
                 'source': photo.url
