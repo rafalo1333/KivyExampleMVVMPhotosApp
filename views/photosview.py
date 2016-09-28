@@ -73,12 +73,12 @@ class PhotosView(Screen):
 
     def ensure_status_label(self):
         if not self.status_label.parent:
-            self.ids.content.clear_widgets()
-            self.ids.content.add_widget(self.status_label)
+            self.content.clear_widgets()
+            self.content.add_widget(self.status_label)
 
     def ensure_photos_stream(self):
-        self.ids.content.clear_widgets()
-        self.ids.content.add_widget(self.photos_stream)
+        self.content.clear_widgets()
+        self.content.add_widget(self.photos_stream)
 
     def show_content_empty(self):
         self.ensure_status_label()
