@@ -1,0 +1,3 @@
+title=KivyExampleMVVMPhotosApp
+author=rafalo1333
+orientation=portrait
