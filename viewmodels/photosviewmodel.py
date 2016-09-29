@@ -41,6 +41,7 @@ class PhotosViewModel(EventDispatcher):
 
         def on_error(req, res):
             self.dispatch('on_photos_load_error')
+            self.photos = []
 
         def on_progress(*args):
             self.dispatch('on_photos_load_progress')
